@@ -99,4 +99,6 @@ StockpricePrediction_ML/
 └── static/
     └── style.css           # CSS styling
 
-In Help contact2310080070@klh.edu.in
+In Help contact: 2310080070@klh.edu.in
+Owner: Likith Malapati
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NSE Stock Price Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- ================= Disclaimer Popup ================= -->
+<div id="disclaimerModal" class="modal">
+    <div class="modal-content">
+        <p>
+            Investments in securities market are subject to market risks,
+            read all the related documents carefully before investing.
+        </p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+<!-- =================================================== -->
+
+<div class="container">
+
+    <!-- ================= Input Card ================= -->
+    <div class="card">
+        <h2>NSE Stock Price Prediction</h2>
+
+        <form method="post" action="/predict">
+            <label>Enter NSE Stock Symbol</label>
+            <input type="text" name="symbol" placeholder="IDEA.NS" required>
+            <small>Format: STOCKNAME.NS</small>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+    <!-- ============================================== -->
+
+    {% if result %}
+    <!-- ================= Result Card ================= -->
+    <div class="card result">
+
+        <h3>📊 Stock Summary</h3>
+        <p><b>Company:</b> {{ result.company_name }}</p>
+        <p><b>Symbol:</b> {{ result.stock_symbol }}</p>
+        <p><b>Listed Since:</b> {{ result.listed_since }}</p>
+        <p><b>Market Cap:</b> ₹ {{ result.market_cap_cr }} Cr</p>
+        <p><b>Current Price:</b> ₹ {{ result.current_price }}</p>
+
+        <h4>About Company</h4>
+        <p class="summary">{{ result.summary }}</p>
+
+        <h3>🧠 ML Prediction</h3>
+        <p><b>Algorithm:</b> {{ result.algorithm }}</p>
+        <p><b>MAE:</b> ₹ {{ result.mae }}</p>
+
+        <p><b>Predicted Next Close:</b> ₹ {{ result.predicted_next_close }}</p>
+
+        <!-- ===== Scrolling Warning ===== -->
+        <div class="scroll-warning">
+            <marquee behavior="scroll" direction="left">
+                This is just a predicted value. Accurately predicting stock prices with certainty is widely considered impossible due to the market’s inherent complexity.
+                This website is not responsible for any financial loss.
+            </marquee>
+        </div>
+        <!-- ============================ -->
+
+        <h3>📰 Recent News</h3>
+        <ul>
+            {% for news in result.news %}
+                <li>
+                    <b>{{ news.title }}</b><br>
+                    <small>{{ news.source }} | {{ news.date }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <!-- ============================================== -->
+    {% endif %}
+
+</div>
+
+<!-- ================= Popup Script ================= -->
+<script>
+    function closeModal() {
+        document.getElementById("disclaimerModal").style.display = "none";
+    }
+
+    window.onload = function () {
+        document.getElementById("disclaimerModal").style.display = "block";
+    };
+</script>
+<!-- ============================================== -->
+
+</body>
+</html>

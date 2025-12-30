@@ -6,3 +6,4 @@ numpy
 scikit-learn
 newsapi-python
 jinja2
+python-multipart
